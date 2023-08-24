@@ -1,9 +1,13 @@
+from blog.models import Comment, Post
+
 from django.contrib import admin
-from blog.models import Post, Comment
+
 
 class CommentInline(admin.StackedInline):
     model = Comment
     extra = 3
+
+
 @admin.register(Post)
 class PostAdmin(admin.ModelAdmin):
     list_display = ['owner', 'title', 'description', 'is_published']

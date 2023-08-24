@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 from django.db import models
-from django_lifecycle import LifecycleModel, hook
+
+from django_lifecycle import LifecycleModel, hook  # noqa: F401
 
 
 class Post(LifecycleModel):
@@ -28,7 +29,6 @@ class Comment(LifecycleModel):
 
     text = models.TextField(max_length=100)
     is_published = models.BooleanField(default=False)
-
 
     class Meta:
         verbose_name = 'comment'
