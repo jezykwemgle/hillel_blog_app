@@ -2,12 +2,11 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>List</title>
+    <title>Detail</title>
 </head>
 <body>
-{% for post in post_list %}
-<p>{{ owner.username }}</p>
 <p>{{ post.title }}</p>
-{% endfor %}
+<p>{{ post.description }}</p>
+<p>{{ post.owner }}</p>
 </body>
 </html>

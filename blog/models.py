@@ -26,7 +26,6 @@ class Comment(LifecycleModel):
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
     owner = models.ForeignKey(User, null=True, blank=True, on_delete=models.CASCADE)
 
-    username = models.CharField(max_length=255)
     text = models.TextField(max_length=100)
     is_published = models.BooleanField(default=False)
 
