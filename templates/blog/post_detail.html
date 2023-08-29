@@ -1,12 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Detail</title>
-</head>
-<body>
-<p>{{ post.title }}</p>
-<p>{{ post.description }}</p>
-<p>{{ post.owner }}</p>
-</body>
-</html>
+{% extends "blog/base.html" %}
+{% block title %}Home{% endblock title %}
+{% block content %}
+    <p>{{ post.title }}</p>
+    <p>{{ post.description }}</p>
+    <p>{{ post.owner }}</p>
+{% endblock content %}

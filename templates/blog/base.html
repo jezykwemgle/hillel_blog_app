@@ -5,6 +5,17 @@
     <title>Title</title>
 </head>
 <body>
-
+    <button type="button" class="btn btn-primary"><a href="" >LOGIN</a></button>
+    <button type="button" class="btn btn-primary"><a href="" >LOGOUT</a></button>
+{#{% if user_is_logged %}#}
+{#    <button type="button" class="btn btn-primary"><a href="{% url '' %}" >Edit user information</a></button>#}
+{#{% endif %}#}
+<!-- Button trigger modal -->
+    <button type="button" class="btn btn-primary js-contact-us" data-bs-toggle="modal" data-url="">
+        Contact us
+    </button>
+<br>
+{% block content %}
+{% endblock %}
 </body>
 </html>

@@ -1,13 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>List</title>
-</head>
-<body>
-{% for post in post_list %}
-<p>{{ owner.username }}</p>
-<p>{{ post.title }}</p>
-{% endfor %}
-</body>
-</html>
+{% extends "blog/base.html" %}
+{% block title %}Home{% endblock title %}
+{% block content %}
+    {% for post in post_list %}
+    <p>{{ owner.username }}</p>
+    <p>{{ post.title }}</p>
+    {% endfor %}
+{% endblock content %}

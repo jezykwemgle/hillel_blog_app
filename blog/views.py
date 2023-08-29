@@ -15,7 +15,8 @@ from django.views import generic
 #         page = request.GET.get('page')
 #         page_obj = paginator.get_page(page)
 #         return render(request, 'blog/all_post_list.html', {'page_obj': page_obj, "is_paginated": True})
-
+class HomeView(generic.TemplateView):
+    template_name = 'blog/home.html'
 
 class AllPostView(generic.ListView):
     model = Post
