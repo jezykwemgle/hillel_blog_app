@@ -1,7 +1,29 @@
-{% extends "blog/base.html" %}
-{% block title %}Home{% endblock title %}
+{% extends 'blog/base.html' %}
+
 {% block content %}
-    <p>{{ post.title }}</p>
+    <h1>{{ post.title }}</h1>
     <p>{{ post.description }}</p>
-    <p>{{ post.owner }}</p>
-{% endblock content %}
+    <p>{{ post.text }}</p>
+    <p>Owner: <a href="{% url 'blog:user-profile' post.owner.id %}">{{ post.owner.username }}</a></p>
+
+    <h2>Comments</h2>
+    <ul>
+        {% for comment in comments %}
+            <li>{{ comment.text }}</li>
+        {% endfor %}
+    </ul>
+
+    {% if user.is_authenticated and user.id == post.owner.id %}
+        <a href="{% url 'blog:update-post' post.pk %}">Edit Post</a>
+        <a href="{% url 'blog:delete-post' post.pk %}">Delete Post</a>
+    {% endif %}
+
+    <h2>Add Comment</h2>
+    <form method="post" action="{% url 'blog:post' post.pk %}">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Add Comment</button>
+    </form>
+
+{% endblock %}
+
