@@ -13,21 +13,6 @@ class HomeView(generic.TemplateView):
     template_name = 'blog/home.html'
 
 
-class UserProfileView(generic.DetailView):
-    model = User
-    template_name = 'blog/profile.html'
-
-
-# TODO: зробити можливість редагування профілю тільки для юзеру який залогінився
-class UserEditView(LoginRequiredMixin, generic.UpdateView):
-    model = User
-    template_name = 'blog/edit_profile.html'
-    fields = ['username', 'email', 'first_name', 'last_name']
-
-    def get_success_url(self):
-        return reverse_lazy('blog:user-profile', kwargs={'pk': self.request.user.id})
-
-
 class AllPostView(generic.ListView):
     model = Post
     paginate_by = 5

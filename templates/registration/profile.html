@@ -8,7 +8,7 @@
     <a href="{% url 'blog:users-posts' user.pk %}">All {{ user.username }} posts</a><br>
 
     {% if user.is_authenticated %}
-        <a href="{% url 'blog:user-edit-profile' user.pk %}">Edit Profile</a><br>
+        <a href="{% url 'accounts:edit-my-profile' %}">Edit Profile</a><br>
         <a href="{% url 'blog:not-published-posts' %}">All n/p posts</a>
     {% endif %}
 {% endblock %}
