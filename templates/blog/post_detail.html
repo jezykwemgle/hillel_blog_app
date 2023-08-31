@@ -1,15 +1,20 @@
-{% extends 'blog/base.html' %}
+{% extends 'base.html' %}
 
 {% block content %}
-    <h1>{{ post.title }}</h1>
-    <p>{{ post.description }}</p>
-    <p>{{ post.text }}</p>
-    <p>Owner: <a href="{% url 'blog:user-profile' post.owner.id %}">{{ post.owner.username }}</a></p>
+    <h1>Title: {{ post.title }}</h1>
+    <p>Description: {{ post.description }}</p>
+    <p>Text: {{ post.text }}</p>
+    <p>Owner: <a href="{% url 'blog:users-posts' post.owner.id %}">{{ post.owner.username }}</a></p>
 
-    <h2>Comments</h2>
+    <h2>Comments></h2>
     <ul>
         {% for comment in comments %}
-            <li>{{ comment.text }}</li>
+            {% if comment.owner %}
+                <li><h3>{{ comment.owner }}: {{ comment.text }}</h3></li>
+            {% else %}
+                <li><h3>Anonymous: {{ comment.text }}</h3></li>
+            {% endif %}
+
         {% endfor %}
     </ul>
 
@@ -18,7 +23,7 @@
         <a href="{% url 'blog:delete-post' post.pk %}">Delete Post</a>
     {% endif %}
 
-    <h2>Add Comment</h2>
+    <h3>Add Comment</h3>
     <form method="post" action="{% url 'blog:post' post.pk %}">
         {% csrf_token %}
         {{ form.as_p }}

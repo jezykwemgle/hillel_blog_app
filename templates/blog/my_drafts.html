@@ -1,7 +1,7 @@
-{% extends 'blog/base.html' %}
+{% extends 'blog/../base.html' %}
 
 {% block content %}
-    <h1>All Not Published User`s Posts</h1>
+    <h1>My drafts</h1>
     <ul>
         {% for post in post_list %}
             <li><a href="{% url 'blog:post' post.pk %}">{{ post.title }}</a></li>

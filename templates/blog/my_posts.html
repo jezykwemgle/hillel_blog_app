@@ -1,7 +1,9 @@
 {% extends 'blog/../base.html' %}
 
 {% block content %}
-    <h1>All User`s Posts</h1>
+    <h2>My posts</h2>
+    <a href="{% url 'blog:create-post' %}" class="btn btn-info">Create New Post</a>
+
     <ul>
         {% for post in post_list %}
             <li><a href="{% url 'blog:post' post.pk %}">{{ post.title }}</a></li>
