@@ -11,7 +11,7 @@ class HomeView(generic.TemplateView):
     """
 
     """
-    template_name = 'blog/home.html'
+    template_name = 'blog/home.html11'
 
 
 class AllPostView(generic.ListView):
