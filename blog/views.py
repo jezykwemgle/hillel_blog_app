@@ -1,5 +1,6 @@
 from blog.forms import CommentForm, PostForm
 from blog.models import Comment, Post
+from blog.tasks import send_mail_to_admin, send_mail_to_user
 
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import get_object_or_404, redirect, render
@@ -87,15 +88,25 @@ class PostDetailView(View):
         post = get_object_or_404(Post, pk=pk)
         comments = Comment.objects.filter(is_published=True, post=post)
         form = CommentForm(request.POST)
+
         if form.is_valid():
             comment = form.save(commit=False)
             comment.post = post
+
             if self.request.user.is_authenticated:
                 comment.owner = request.user
+                send_mail_to_admin(request.user, 'comment')
+            else:
+                send_mail_to_admin('Anonymous', 'comment')
+
             if self.request.user.is_superuser:
                 comment.is_published = True
+
+            if self.request.user.username != post.owner.username:
+                send_mail_to_user(post.owner.username, post.owner.email, post.title, reverse_lazy('blog:post', kwargs={'pk': pk}))
             comment.save()
             return redirect('blog:post', pk=pk)
+
         return render(request, self.template_name, {'post': post, 'comments': comments, 'form': form})
 
 
@@ -115,6 +126,7 @@ class PostCreateView(LoginRequiredMixin, generic.CreateView):
             form.instance.owner = self.request.user
         if form.instance.approved:
             form.instance.is_published = True
+            send_mail_to_admin(self.request.user, 'post')
         return super().form_valid(form)
 
 
@@ -134,6 +146,7 @@ class PostUpdateView(LoginRequiredMixin, generic.UpdateView):
             form.instance.owner = self.request.user
         if form.instance.approved:
             form.instance.is_published = True
+            send_mail_to_admin(self.request.user, 'post')
         else:
             form.instance.is_published = False
         return super().form_valid(form)
