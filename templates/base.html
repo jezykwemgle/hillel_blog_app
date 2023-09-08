@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}My Blog{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+
+   <div class="row">
+     <div class="col-sm-2">
+       {% block sidebar %}
+         <ul class="sidebar-nav">
+          <a href="{% url 'blog:home' %}">|Home</a>
+          <a href="{% url 'blog:all-posts' %}">|All posts</a>
+        </ul>
+
+        <ul class="sidebar-nav">
+          {% if user.is_authenticated %}
+            <a href="{% url 'accounts:my-profile' %}">|My profile ({{ user.get_username }})</a>
+            <a href="{% url 'accounts:logout' %}?next={{ request.path }}">|Logout</a>
+          {% else %}
+            <a href="{% url 'accounts:login' %}?next={{ request.path }}">Login</a>
+            <a href="{% url 'accounts:registration' %}?next={{ request.path }}">|Registration</a>
+          {% endif %}
+        </ul>
+      {% endblock %}
+    </div>
+   </div>
+
+    {% block content %}
+    {% endblock %}
+
+</body>
+</html>
