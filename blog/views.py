@@ -95,15 +95,15 @@ class PostDetailView(View):
 
             if self.request.user.is_authenticated:
                 comment.owner = request.user
-                send_mail_to_admin(request.user, 'comment')
+                send_mail_to_admin.delay(str(request.user), 'comment')
             else:
-                send_mail_to_admin('Anonymous', 'comment')
+                send_mail_to_admin.delay(str('Anonymous'), 'comment')
 
             if self.request.user.is_superuser:
                 comment.is_published = True
 
             if self.request.user.username != post.owner.username:
-                send_mail_to_user(post.owner.username, post.owner.email, post.title, reverse_lazy('blog:post', kwargs={'pk': pk}))
+                send_mail_to_user.delay(str(post.owner.username), str(post.owner.email), str(post.title), reverse_lazy('blog:post', kwargs={'pk': pk}))
             comment.save()
             return redirect('blog:post', pk=pk)
 
@@ -126,7 +126,7 @@ class PostCreateView(LoginRequiredMixin, generic.CreateView):
             form.instance.owner = self.request.user
         if form.instance.approved:
             form.instance.is_published = True
-            send_mail_to_admin(self.request.user, 'post')
+            send_mail_to_admin.delay(str(self.request.user), 'post')
         return super().form_valid(form)
 
 
@@ -146,7 +146,7 @@ class PostUpdateView(LoginRequiredMixin, generic.UpdateView):
             form.instance.owner = self.request.user
         if form.instance.approved:
             form.instance.is_published = True
-            send_mail_to_admin(self.request.user, 'post')
+            send_mail_to_admin.delay(str(self.request.user), 'post')
         else:
             form.instance.is_published = False
         return super().form_valid(form)
