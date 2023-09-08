@@ -134,6 +134,8 @@ class PostUpdateView(LoginRequiredMixin, generic.UpdateView):
             form.instance.owner = self.request.user
         if form.instance.approved:
             form.instance.is_published = True
+        else:
+            form.instance.is_published = False
         return super().form_valid(form)
 
 
