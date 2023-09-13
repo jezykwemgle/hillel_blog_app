@@ -102,6 +102,8 @@ class PostDetailView(View):
             if self.request.user.is_superuser:
                 comment.is_published = True
 
+            # if self.request.user.username != post.owner.username:
+            #     send_mail_to_user.delay(str(post.owner.username), str(post.owner.email), str(post.title), reverse_lazy('blog:post', kwargs={'pk': pk}))
             comment.save()
             return redirect('blog:post', pk=pk)
 
