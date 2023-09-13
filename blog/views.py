@@ -1,3 +1,5 @@
+from django.core.paginator import Paginator
+
 from blog.forms import CommentForm, PostForm
 from blog.models import Comment, Post
 from blog.tasks import send_mail_to_admin, send_mail_to_user
@@ -81,8 +83,11 @@ class PostDetailView(View):
     def get(self, request, pk):
         post = get_object_or_404(Post, pk=pk)
         comments = Comment.objects.filter(is_published=True, post=post)
+        paginator = Paginator(comments, 2)
+        page_number = self.request.GET.get('page')
+        page_obj = paginator.get_page(page_number)
         form = CommentForm()
-        return render(request, self.template_name, {'post': post, 'comments': comments, 'form': form})
+        return render(request, self.template_name, {'post': post, 'page_obj': page_obj, 'form': form})
 
     def post(self, request, pk):
         post = get_object_or_404(Post, pk=pk)
