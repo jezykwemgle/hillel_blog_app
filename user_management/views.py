@@ -4,7 +4,8 @@ from django.contrib.auth.models import User
 from django.urls import reverse_lazy
 from django.views import generic
 
-from user_management.forms import RegisterForm
+from user_management.forms import RegisterForm, ContactUs
+from blog.tasks import contact_us
 
 
 class UserProfileView(LoginRequiredMixin, generic.DetailView):
@@ -40,3 +41,13 @@ class RegisterFormView(generic.FormView):
         user = authenticate(username=user.username, password=form.cleaned_data.get("password1"))
         login(self.request, user)
         return super(RegisterFormView, self).form_valid(form)
+
+
+class ContactUsView(generic.FormView):
+    template_name = 'registration/contact_us.html'
+    form_class = ContactUs
+    success_url = reverse_lazy('blog:home')
+
+    def form_valid(self, form):
+        contact_us.delay(form.cleaned_data.get('subject'), form.cleaned_data.get('message'), form.cleaned_data.get('email'))
+        return super(ContactUsView, self).form_valid(form)
