@@ -1,7 +1,7 @@
 from django.contrib.auth import views
 from django.urls import path
 
-from user_management.views import RegisterFormView, UserEditProfileView, UserProfileView
+from user_management.views import ContactUsView, RegisterFormView, UserEditProfileView, UserProfileView
 
 app_name = 'accounts'
 urlpatterns = [
@@ -33,5 +33,6 @@ urlpatterns = [
     ),
     path('registration/', RegisterFormView.as_view(), name='registration'),
     path('my-profile/', UserProfileView.as_view(), name='my-profile'),
-    path('edit-my-profile/', UserEditProfileView.as_view(), name='edit-my-profile')
+    path('edit-my-profile/', UserEditProfileView.as_view(), name='edit-my-profile'),
+    path('contact-us/', ContactUsView.as_view(), name='contact-us')
 ]

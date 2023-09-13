@@ -9,3 +9,9 @@ class RegisterForm(UserCreationForm):
     class Meta:
         model = User
         fields = ["username", "email", "password1", "password2"]
+
+
+class ContactUs(forms.Form):
+    subject = forms.CharField(max_length=255)
+    message = forms.CharField(max_length=500)
+    email = forms.EmailField()
