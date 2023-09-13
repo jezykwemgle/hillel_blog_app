@@ -1,9 +1,8 @@
-from django.urls import reverse_lazy
-
 from blog.models import Comment, Post
+from blog.tasks import send_mail_to_user
 
 from django.contrib import admin
-from blog.tasks import send_mail_to_user
+from django.urls import reverse_lazy
 
 
 class CommentInline(admin.StackedInline):
@@ -38,6 +37,3 @@ class CommentAdmin(admin.ModelAdmin):
         for c in queryset:
             send_mail_to_user.delay(str(c.owner), str(c.owner.email), str(c.post.title),
                                     reverse_lazy('blog:post', kwargs={'pk': c.post.pk}))
-
-
-

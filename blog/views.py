@@ -1,10 +1,9 @@
-from django.core.paginator import Paginator
-
 from blog.forms import CommentForm, PostForm
 from blog.models import Comment, Post
-from blog.tasks import send_mail_to_admin, send_mail_to_user
+from blog.tasks import send_mail_to_admin, send_mail_to_user  # noqa
 
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.paginator import Paginator
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse_lazy
 from django.views import View, generic
@@ -108,7 +107,9 @@ class PostDetailView(View):
                 comment.is_published = True
 
             # if self.request.user.username != post.owner.username:
-            #     send_mail_to_user.delay(str(post.owner.username), str(post.owner.email), str(post.title), reverse_lazy('blog:post', kwargs={'pk': pk}))
+            #     send_mail_to_user.delay(str(post.owner.username),
+            #     str(post.owner.email), str(post.title),
+            #     reverse_lazy('blog:post', kwargs={'pk': pk}))
             comment.save()
             return redirect('blog:post', pk=pk)
 

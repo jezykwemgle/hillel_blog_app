@@ -1,7 +1,7 @@
 from django.contrib.auth import views
 from django.urls import path
 
-from user_management.views import RegisterFormView, UserEditProfileView, UserProfileView, ContactUsView
+from user_management.views import ContactUsView, RegisterFormView, UserEditProfileView, UserProfileView
 
 app_name = 'accounts'
 urlpatterns = [

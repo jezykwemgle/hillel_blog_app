@@ -1,11 +1,12 @@
+from blog.tasks import contact_us
+
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 from django.urls import reverse_lazy
 from django.views import generic
 
-from user_management.forms import RegisterForm, ContactUs
-from blog.tasks import contact_us
+from user_management.forms import ContactUs, RegisterForm
 
 
 class UserProfileView(LoginRequiredMixin, generic.DetailView):
@@ -49,5 +50,7 @@ class ContactUsView(generic.FormView):
     success_url = reverse_lazy('blog:home')
 
     def form_valid(self, form):
-        contact_us.delay(form.cleaned_data.get('subject'), form.cleaned_data.get('message'), form.cleaned_data.get('email'))
+        contact_us.delay(form.cleaned_data.get('subject'),
+                         form.cleaned_data.get('message'),
+                         form.cleaned_data.get('email'))
         return super(ContactUsView, self).form_valid(form)
