@@ -10,6 +10,9 @@ from user_management.forms import ContactUs, RegisterForm
 
 
 class UserProfileView(LoginRequiredMixin, generic.DetailView):
+    """
+    Профіль залогіненого юзера.
+    """
     model = User
     template_name = 'registration/profile.html'
 
@@ -19,6 +22,9 @@ class UserProfileView(LoginRequiredMixin, generic.DetailView):
 
 
 class UserEditProfileView(LoginRequiredMixin, generic.UpdateView):
+    """
+    Редагування профілю залогіненого юзера.
+    """
     model = User
     fields = ["first_name", "last_name", "email"]
     template_name = 'registration/edit_profile.html'
@@ -33,6 +39,9 @@ class UserEditProfileView(LoginRequiredMixin, generic.UpdateView):
 
 
 class RegisterFormView(generic.FormView):
+    """
+    Реєстрація нового юзера, якщо реєстрація успішна - логін юзера.
+    """
     template_name = 'registration/register.html'
     form_class = RegisterForm
     success_url = reverse_lazy("accounts:my-profile")
@@ -45,6 +54,9 @@ class RegisterFormView(generic.FormView):
 
 
 class ContactUsView(generic.FormView):
+    """
+    Зв'язок з адміном.
+    """
     template_name = 'registration/contact_us.html'
     form_class = ContactUs
     success_url = reverse_lazy('blog:home')

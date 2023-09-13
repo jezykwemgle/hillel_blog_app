@@ -11,7 +11,7 @@ from django.views import View, generic
 
 class HomeView(generic.TemplateView):
     """
-
+    Головна сторінка.
     """
     template_name = 'blog/home.html'
 
@@ -24,7 +24,6 @@ class AllPostView(generic.ListView):
     paginate_by = 5
     template_name = 'blog/all_post_list.html'
 
-    # TODO: виводити кількість коментарів
     def get_queryset(self):
         return (super(AllPostView, self).get_queryset()
                 .filter(approved=True, is_published=True)
@@ -34,7 +33,7 @@ class AllPostView(generic.ListView):
 
 class UserPostsView(generic.ListView):
     """
-    Всі пости певного юзера
+    Всі пости певного юзера, досуп за id.
     """
     model = Post
     paginate_by = 12
@@ -49,7 +48,7 @@ class UserPostsView(generic.ListView):
 
 class LoginUserPostsView(LoginRequiredMixin, generic.ListView):
     """
-    Опубліковані пости залогіненого юзера (мої пости)
+    Опубліковані пости залогіненого юзера (мої пости).
     """
     model = Post
     paginate_by = 12
@@ -62,7 +61,7 @@ class LoginUserPostsView(LoginRequiredMixin, generic.ListView):
 
 class NotPublishedLoginUserPostsView(LoginRequiredMixin, generic.ListView):
     """
-    Не опубліковані пости залогіненого юзера (мої чернетки)
+    Не опубліковані пости залогіненого юзера (мої чернетки).
     """
     model = Post
     template_name = 'blog/my_drafts.html'
@@ -75,7 +74,10 @@ class NotPublishedLoginUserPostsView(LoginRequiredMixin, generic.ListView):
 
 class PostDetailView(View):
     """
-
+    Детальне представлення поста:
+    - get -> пост, список опублікованих коментарів, пуста форма для створення нового коментаря.
+    - post -> пост, список опублікованих коментарів, якщо форма валідна,
+    адміну надсилається повідомлення про створення нвого коментаря.
     """
     template_name = 'blog/post_detail.html'
 
@@ -118,7 +120,7 @@ class PostDetailView(View):
 
 class PostCreateView(LoginRequiredMixin, generic.CreateView):
     """
-
+    Створення нового поста, якщо форма валідна, адміну надсилається повідомлення про створення нового поста.
     """
     model = Post
     form_class = PostForm
@@ -138,7 +140,7 @@ class PostCreateView(LoginRequiredMixin, generic.CreateView):
 
 class PostUpdateView(LoginRequiredMixin, generic.UpdateView):
     """
-
+    Оновлення поста, при оновленні і публікації оновленого поса, адміну надсилається повідомлення.
     """
     model = Post
     form_class = PostForm
@@ -160,7 +162,7 @@ class PostUpdateView(LoginRequiredMixin, generic.UpdateView):
 
 class PostDeleteView(LoginRequiredMixin, generic.DeleteView):
     """
-
+    Видалення поста.
     """
     model = Post
     success_url = reverse_lazy('blog:users-posts')
